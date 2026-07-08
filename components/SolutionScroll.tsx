@@ -95,30 +95,32 @@ export default function SolutionScroll({ solution }: SolutionScrollProps) {
       ctx.fillStyle = "#0A0A0A";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Preserve aspect ratio (contain)
+      // Preserve aspect ratio (cover)
       const imageRatio = 1280 / 720;
       const canvasRatio = canvas.width / canvas.height;
       let drawWidth, drawHeight, drawX, drawY;
 
-      if (canvasRatio > imageRatio) {
+      if (canvasRatio < imageRatio) {
+        // Portrait or tall viewports (like mobile): match height and crop sides
         drawHeight = canvas.height;
-        drawWidth = drawHeight * imageRatio;
+        drawWidth = canvas.height * imageRatio;
         drawX = (canvas.width - drawWidth) / 2;
         drawY = 0;
       } else {
+        // Landscape or wide viewports: match width and crop top/bottom
         drawWidth = canvas.width;
-        drawHeight = drawWidth / imageRatio;
+        drawHeight = canvas.width / imageRatio;
         drawX = 0;
         drawY = (canvas.height - drawHeight) / 2;
       }
 
       ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
 
-      // Vignette effect drawing to mask edges and emphasize center content
+      // Vignette effect drawing to mask edges and emphasize center content relative to visible viewport
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const minRadius = Math.min(drawWidth, drawHeight) * 0.15;
-      const maxRadius = Math.max(drawWidth, drawHeight) * 0.6;
+      const minRadius = Math.min(canvas.width, canvas.height) * 0.15;
+      const maxRadius = Math.max(canvas.width, canvas.height) * 0.65;
 
       const gradient = ctx.createRadialGradient(
         centerX, centerY, minRadius,
