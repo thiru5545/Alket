@@ -137,7 +137,6 @@ export default function WorkCarousel() {
         currentRotation.current += (targetRotation.current - currentRotation.current) * inertiaSpeed;
       }
 
-      // Keep rotation in boundary
       const rotationRad = currentRotation.current;
 
       // Track card closest to 0 radians (centered card)
@@ -182,11 +181,27 @@ export default function WorkCarousel() {
         card.style.zIndex = String(zIndex);
         card.style.filter = blurValue > 0.5 ? `blur(${blurValue}px)` : "none";
 
-        // Active card highlight styling
+        // Active card highlight styling + category-tinted soft shadows
         if (activeIdx === i && absoluteDiff < 0.2) {
           card.classList.add("wc-card-active");
+          const category = workItems[i].category;
+          if (category === "Generative AI") {
+            card.classList.add("wc-card-active-genai");
+            card.classList.remove("wc-card-active-dataintel", "wc-card-active-aiauto");
+          } else if (category === "Data Intelligence") {
+            card.classList.add("wc-card-active-dataintel");
+            card.classList.remove("wc-card-active-genai", "wc-card-active-aiauto");
+          } else {
+            card.classList.add("wc-card-active-aiauto");
+            card.classList.remove("wc-card-active-genai", "wc-card-active-dataintel");
+          }
         } else {
-          card.classList.remove("wc-card-active");
+          card.classList.remove(
+            "wc-card-active",
+            "wc-card-active-genai",
+            "wc-card-active-dataintel",
+            "wc-card-active-aiauto"
+          );
         }
       }
 
@@ -248,7 +263,6 @@ export default function WorkCarousel() {
 
   // Wheel scroll to rotate
   const onWheel = (e: React.WheelEvent) => {
-    // Only capture scrolling when mouse is over the container
     setShowDragHint(false);
     targetRotation.current += e.deltaY * 0.0012;
   };
@@ -336,9 +350,10 @@ export default function WorkCarousel() {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          transition: border-color 0.4s, box-shadow 0.4s;
+          transition: border-color 0.4s, box-shadow 0.4s, background-color 0.4s;
           cursor: pointer;
           user-select: none;
+          overflow: hidden;
         }
         @media (min-width: 640px) {
           .wc-card-wrapper {
@@ -348,12 +363,35 @@ export default function WorkCarousel() {
             margin-top: -190px;
           }
         }
-        .wc-card-wrapper.wc-card-active {
-          border-color: #5A5A5A;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        
+        /* Specular Top Border Highlight & Soft Category-Tinted Glowing Backdrops */
+        .wc-card-wrapper.wc-card-active-genai {
+          border-color: rgba(140, 160, 255, 0.45);
+          background: rgba(32, 33, 40, 0.9);
+          box-shadow: 
+            0 25px 55px -12px rgba(0, 0, 0, 0.9),
+            0 0 35px -5px rgba(140, 160, 255, 0.14),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
         }
+        .wc-card-wrapper.wc-card-active-dataintel {
+          border-color: rgba(242, 242, 242, 0.4);
+          background: rgba(34, 34, 34, 0.9);
+          box-shadow: 
+            0 25px 55px -12px rgba(0, 0, 0, 0.9),
+            0 0 35px -5px rgba(255, 255, 255, 0.08),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+        }
+        .wc-card-wrapper.wc-card-active-aiauto {
+          border-color: rgba(180, 180, 180, 0.4);
+          background: rgba(30, 30, 30, 0.9);
+          box-shadow: 
+            0 25px 55px -12px rgba(0, 0, 0, 0.9),
+            0 0 35px -5px rgba(180, 180, 180, 0.12),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+        }
+        
         .wc-card-wrapper:hover {
-          border-color: #5A5A5A;
+          border-color: rgba(255, 255, 255, 0.25);
         }
         .wc-no-select {
           -webkit-user-drag: none;
@@ -419,10 +457,18 @@ export default function WorkCarousel() {
                   key={idx}
                   ref={(el) => { cardRefs.current[idx] = el; }}
                   onClick={() => handleCardClick(idx)}
-                  className="wc-card-wrapper"
+                  className="wc-card-wrapper group"
                 >
+                  {/* Glossy top specular reflection overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] via-transparent to-transparent pointer-events-none rounded-[14px] z-10" />
+
+                  {/* Specular glare shine animation that sweeps across on hover */}
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[14px] z-10">
+                    <div className="absolute -inset-[100%] bg-gradient-to-tr from-transparent via-white/[0.06] to-transparent rotate-45 translate-x-[-80%] group-hover:translate-x-[80%] transition-transform duration-1000 ease-out" />
+                  </div>
+
                   {/* Card top */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 relative z-20">
                     <div className="flex justify-between items-center text-[9px] font-mono text-[#8A8A8A] uppercase tracking-wider">
                       <span className="bg-white/5 border border-white/5 px-2 py-0.5 rounded text-[#C4C4C4] font-medium">{work.category}</span>
                       <span>{work.year}</span>
@@ -438,7 +484,7 @@ export default function WorkCarousel() {
                   </div>
 
                   {/* Card bottom */}
-                  <div className="border-t border-white/5 pt-5 flex justify-between items-end">
+                  <div className="border-t border-white/5 pt-5 flex justify-between items-end relative z-20">
                     <div className="space-y-0.5">
                       <span className="text-[8px] uppercase tracking-widest text-[#8A8A8A] block">
                         {primaryStat[1]}
