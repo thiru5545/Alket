@@ -58,7 +58,7 @@ export default function Home() {
 
           {/* B. SOLUTIONS DETAIL LAYER */}
           <section className="relative z-30 px-6 py-24 md:py-32 bg-black/80 border-t border-white/5 backdrop-blur-md">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
               
               {/* Product stats and details */}
               <motion.div
@@ -78,15 +78,15 @@ export default function Home() {
                   {activeSolution.detailsSection.title}
                 </h2>
                 
-                {/* Stats Cards grid */}
-                <div className="grid grid-cols-3 gap-4">
+                {/* Stats Cards grid with responsive font scaling */}
+                <div className="grid grid-cols-3 gap-3 sm:gap-4">
                   {activeSolution.stats.map((stat, i) => (
                     <div
                       key={i}
-                      className="border border-white/10 rounded-2xl p-4 bg-neutral-900/40 flex flex-col justify-between h-28 hover:border-white/20 transition-all duration-300"
+                      className="border border-white/10 rounded-2xl p-3 sm:p-4 bg-neutral-900/40 flex flex-col justify-between h-24 sm:h-28 hover:border-white/20 transition-all duration-300"
                     >
-                      <span className="text-[10px] text-[#8A8A8A] uppercase tracking-wider font-semibold">{stat.label}</span>
-                      <span className="text-2xl font-extrabold text-[#C4C4C4]">{stat.val}</span>
+                      <span className="text-[8px] sm:text-[10px] text-[#8A8A8A] uppercase tracking-wider font-semibold leading-tight">{stat.label}</span>
+                      <span className="text-lg sm:text-2xl font-extrabold text-[#C4C4C4]">{stat.val}</span>
                     </div>
                   ))}
                 </div>
@@ -215,7 +215,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="bg-neutral-900/60 border border-white/5 rounded-3xl p-8 space-y-6 relative overflow-hidden backdrop-blur-sm"
+                className="bg-neutral-900/60 border border-white/5 rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden backdrop-blur-sm"
               >
                 <h4 className="font-bold text-lg tracking-tight text-[#F2F2F2]">Request Architecture Blueprint</h4>
 
@@ -272,7 +272,7 @@ export default function Home() {
           </section>
 
           {/* E. NEXT BLEND SLANTED CTA */}
-          <section className="relative z-30 border-t border-white/5 overflow-hidden">
+          <section className="relative z-10 border-t border-white/5 overflow-hidden">
             <button
               onClick={handleNext}
               className="w-full py-24 px-6 bg-gradient-to-r from-neutral-950 to-neutral-900 hover:from-neutral-900 hover:to-neutral-800 transition-all flex flex-col items-center justify-center gap-3 relative group"

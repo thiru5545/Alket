@@ -104,18 +104,23 @@ export default function WorkCarousel() {
   // Inertia and display settings
   const inertiaSpeed = 0.08;
   const blurEffectActive = useRef(true);
-  const radius = useRef(380); // Default desktop radius
+  const radius = useRef(380); // Default radius
 
   const lastActiveIndex = useRef(0);
 
   // Initialize and run the 3D loop
   useEffect(() => {
-    // 1. Handle responsiveness & reduced motion settings
+    // 1. Handle responsive radius across 4 distinct breakpoints
     const handleResize = () => {
-      if (window.innerWidth < 640) {
-        radius.current = 260; // Mobile radius
+      const w = window.innerWidth;
+      if (w < 400) {
+        radius.current = 170; // Small mobile (iPhone SE)
+      } else if (w < 640) {
+        radius.current = 210; // Standard mobile
+      } else if (w < 1024) {
+        radius.current = 280; // Tablet
       } else {
-        radius.current = 380; // Desktop radius
+        radius.current = 380; // Desktop
       }
     };
     handleResize();
@@ -312,7 +317,7 @@ export default function WorkCarousel() {
   };
 
   return (
-    <section className="relative z-30 px-6 py-28 bg-[#0A0A0A] border-t border-white/5 overflow-hidden">
+    <section className="relative z-30 px-4 sm:px-6 py-28 bg-[#0A0A0A] border-t border-white/5 overflow-hidden">
       
       {/* 3D Scoped Styles */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -321,7 +326,7 @@ export default function WorkCarousel() {
           perspective-origin: 50% 35%;
           position: relative;
           width: 100%;
-          height: 520px;
+          height: 420px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -337,16 +342,16 @@ export default function WorkCarousel() {
           position: absolute;
           left: 50%;
           top: 50%;
-          width: 290px;
-          height: 360px;
-          margin-left: -145px;
-          margin-top: -180px;
+          width: 235px;
+          height: 310px;
+          margin-left: -117.5px;
+          margin-top: -155px;
           transform-style: preserve-3d;
           backface-visibility: hidden;
           background: rgba(28, 28, 28, 0.85);
           border: 1px solid #333333;
           border-radius: 14px;
-          padding: 24px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -356,11 +361,15 @@ export default function WorkCarousel() {
           overflow: hidden;
         }
         @media (min-width: 640px) {
+          .wc-stage-container {
+            height: 520px;
+          }
           .wc-card-wrapper {
             width: 310px;
             height: 380px;
             margin-left: -155px;
             margin-top: -190px;
+            padding: 24px;
           }
         }
         
@@ -468,34 +477,34 @@ export default function WorkCarousel() {
                   </div>
 
                   {/* Card top */}
-                  <div className="space-y-4 relative z-20">
+                  <div className="space-y-3 relative z-20">
                     <div className="flex justify-between items-center text-[9px] font-mono text-[#8A8A8A] uppercase tracking-wider">
                       <span className="bg-white/5 border border-white/5 px-2 py-0.5 rounded text-[#C4C4C4] font-medium">{work.category}</span>
                       <span>{work.year}</span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-[#F2F2F2] leading-tight">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#F2F2F2] leading-tight">
                       {work.title}
                     </h3>
                     
-                    <p className="text-xs text-neutral-400 font-light leading-relaxed">
+                    <p className="text-[11px] sm:text-xs text-neutral-400 font-light leading-relaxed">
                       {work.summary}
                     </p>
                   </div>
 
                   {/* Card bottom */}
-                  <div className="border-t border-white/5 pt-5 flex justify-between items-end relative z-20">
+                  <div className="border-t border-white/5 pt-4 flex justify-between items-end relative z-20">
                     <div className="space-y-0.5">
                       <span className="text-[8px] uppercase tracking-widest text-[#8A8A8A] block">
                         {primaryStat[1]}
                       </span>
-                      <span className="text-2xl font-black text-[#C4C4C4]">
+                      <span className="text-xl sm:text-2xl font-black text-[#C4C4C4]">
                         {primaryStat[0]}
                       </span>
                     </div>
 
                     {isCentered && (
-                      <button className="wc-modal-trigger-btn w-9 h-9 rounded-full bg-neutral-800 flex items-center justify-center border border-white/5 text-[#F2F2F2] hover:bg-neutral-700 transition-colors">
+                      <button className="wc-modal-trigger-btn w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-neutral-800 flex items-center justify-center border border-white/5 text-[#F2F2F2] hover:bg-neutral-700 transition-colors">
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     )}
@@ -573,7 +582,7 @@ function WorkModal({ work, onClose }: WorkModalProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       
       {/* Backdrop blur */}
       <motion.div
@@ -594,7 +603,7 @@ function WorkModal({ work, onClose }: WorkModalProps) {
       >
         
         {/* Header bar */}
-        <div className="border-b border-white/5 p-6 md:p-8 flex justify-between items-start gap-4">
+        <div className="border-b border-white/5 p-5 sm:p-6 md:p-8 flex justify-between items-start gap-4">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-mono text-[#8A8A8A]">
               <span className="flex items-center gap-1.5"><FolderGit2 className="w-3.5 h-3.5" />{work.category}</span>
@@ -603,28 +612,28 @@ function WorkModal({ work, onClose }: WorkModalProps) {
               <span>•</span>
               <span>{work.year}</span>
             </div>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold tracking-tight">
               {work.title}
             </h2>
           </div>
 
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full border border-white/10 hover:border-white/20 bg-neutral-800/80 flex items-center justify-center hover:bg-neutral-800 transition-all hover:rotate-90 duration-300"
+            className="w-10 h-10 rounded-full border border-white/10 hover:border-white/20 bg-neutral-800/80 flex items-center justify-center hover:bg-neutral-800 transition-all hover:rotate-90 duration-300 shrink-0"
           >
             <X className="w-5 h-5 text-neutral-400 hover:text-white" />
           </button>
         </div>
 
         {/* Modal content body */}
-        <div className="overflow-y-auto p-6 md:p-8 space-y-8 flex-1 scrollbar-thin scrollbar-color-[#3A3A3A] scrollbar-track-[#0A0A0A]">
+        <div className="overflow-y-auto p-5 sm:p-6 md:p-8 space-y-8 flex-1 scrollbar-thin scrollbar-color-[#3A3A3A] scrollbar-track-[#0A0A0A]">
           
           {/* Cover photo placeholder / image */}
-          <div className="w-full h-48 md:h-64 rounded-2xl bg-neutral-950/60 border border-white/5 flex items-center justify-center overflow-hidden relative">
+          <div className="w-full h-36 sm:h-48 md:h-64 rounded-2xl bg-neutral-950/60 border border-white/5 flex items-center justify-center overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent z-10" />
-            <div className="text-center space-y-2 relative z-20">
+            <div className="text-center space-y-2 relative z-20 px-4">
               <span className="text-[10px] font-mono tracking-widest text-[#8A8A8A] uppercase">DEPLOYED SYSTEM</span>
-              <p className="text-lg font-bold text-neutral-300">{work.title}</p>
+              <p className="text-base sm:text-lg font-bold text-neutral-300">{work.title}</p>
             </div>
           </div>
 
@@ -671,7 +680,7 @@ function WorkModal({ work, onClose }: WorkModalProps) {
                 <h5 className="text-[10px] font-mono text-[#8A8A8A] uppercase tracking-widest font-bold">
                   Verified Outcomes
                 </h5>
-                <div className="space-y-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1 gap-3">
                   {work.results.map((res, idx) => (
                     <div
                       key={idx}
@@ -680,7 +689,7 @@ function WorkModal({ work, onClose }: WorkModalProps) {
                       <span className="text-[8px] uppercase tracking-widest text-[#8A8A8A] block mb-1">
                         {res[1]}
                       </span>
-                      <span className="text-xl font-extrabold text-[#C4C4C4]">
+                      <span className="text-lg font-extrabold text-[#C4C4C4]">
                         {res[0]}
                       </span>
                     </div>
@@ -697,7 +706,7 @@ function WorkModal({ work, onClose }: WorkModalProps) {
                   {work.stack.map((tech, idx) => (
                     <span
                       key={idx}
-                      className="bg-neutral-950 border border-white/5 text-[#8A8A8A] text-[10px] tracking-wide rounded-full px-3.5 py-1 font-light"
+                      className="bg-neutral-950 border border-white/5 text-[#8A8A8A] text-[10px] tracking-wide rounded-full px-3 py-1 font-light"
                     >
                       {tech}
                     </span>
@@ -710,7 +719,7 @@ function WorkModal({ work, onClose }: WorkModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-white/5 p-6 bg-neutral-950/40 flex justify-end">
+        <div className="border-t border-white/5 p-5 sm:p-6 bg-neutral-950/40 flex justify-end">
           <button
             onClick={onClose}
             className="px-6 py-2.5 rounded-full font-bold text-xs bg-neutral-800 text-[#F2F2F2] border border-white/10 hover:border-white/20 transition-all hover:bg-neutral-700/60 active:scale-[0.98]"
