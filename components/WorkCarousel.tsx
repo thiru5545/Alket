@@ -102,7 +102,7 @@ export default function WorkCarousel() {
   const startRotation = useRef(0);
 
   // Inertia and display settings
-  const inertiaSpeed = 0.08;
+  const inertiaSpeed = 0.05;
   const blurEffectActive = useRef(true);
   const radius = useRef(380); // Default radius
 
@@ -269,7 +269,7 @@ export default function WorkCarousel() {
   // Wheel scroll to rotate
   const onWheel = (e: React.WheelEvent) => {
     setShowDragHint(false);
-    targetRotation.current += e.deltaY * 0.0012;
+    targetRotation.current += e.deltaY * 0.0018;
   };
 
   // Keyboard navigation
