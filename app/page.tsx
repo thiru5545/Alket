@@ -6,6 +6,7 @@ import { solutions } from "@/data/solutions";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Founders from "@/components/Founders";
+import RunningTicker from "@/components/RunningTicker";
 import SolutionScroll from "@/components/SolutionScroll";
 import SolutionTextOverlays from "@/components/SolutionTextOverlays";
 import WorkCarousel from "@/components/WorkCarousel";
@@ -329,6 +330,7 @@ export default function Home() {
         ))}
       </div>
 
+      <RunningTicker />
       <Founders />
       <Footer />
     </div>
