@@ -318,9 +318,38 @@ export default function WorkCarousel() {
 
   return (
     <section className="relative z-30 px-4 sm:px-6 py-28 bg-[#0A0A0A] border-t border-white/5 overflow-hidden">
+      {/* Ambient background glows with breathing animation */}
+      <div className="wc-ambient-glow wc-ambient-glow-silver" />
+      <div className="wc-ambient-glow wc-ambient-glow-accent" />
       
       {/* 3D Scoped Styles */}
       <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes breatheGlow {
+          0%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.96); }
+          50% { opacity: 1.15; transform: translate(-50%, -50%) scale(1.04); }
+        }
+        .wc-ambient-glow {
+          position: absolute;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation: breatheGlow 10s ease-in-out infinite;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .wc-ambient-glow-silver {
+          top: 60%;
+          width: 700px;
+          height: 350px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.025) 0%, transparent 70%);
+          filter: blur(100px);
+        }
+        .wc-ambient-glow-accent {
+          top: 55%;
+          width: 450px;
+          height: 250px;
+          background: radial-gradient(circle, rgba(140, 160, 255, 0.02) 0%, transparent 70%);
+          filter: blur(90px);
+        }
         .wc-stage-container {
           perspective: 1200px;
           perspective-origin: 50% 35%;
@@ -408,7 +437,7 @@ export default function WorkCarousel() {
         }
       `}} />
 
-      <div className="max-w-6xl mx-auto space-y-12">
+      <div className="max-w-6xl mx-auto space-y-12 relative z-10">
         
         {/* Typographic Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

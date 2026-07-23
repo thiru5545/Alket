@@ -129,8 +129,12 @@ export default function Home() {
           </section>
 
           {/* C. DRIFT PREVENTION & TRANSPARENCY SECTION */}
-          <section className="relative z-30 px-6 py-28 bg-[#0A0A0A]/95 border-t border-white/5">
-            <div className="max-w-4xl mx-auto text-center space-y-8">
+          <section className="relative z-30 px-6 py-28 bg-[#0A0A0A]/95 border-t border-white/5 overflow-hidden">
+            {/* Ambient Silver & Accent Glowing Backdrops */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-r from-white/[0.025] to-transparent rounded-full blur-[110px] pointer-events-none z-0" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-gradient-to-r from-indigo-500/[0.015] to-transparent rounded-full blur-[90px] pointer-events-none z-0" />
+            
+            <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -294,7 +298,7 @@ export default function Home() {
 
       {/* F. STATIC INTERFACE CONTROLS */}
       {/* 1. Left/Right Navigation arrows */}
-      <button
+      {/* <button
         onClick={handlePrev}
         className="fixed left-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full border border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-neutral-800 hover:border-white/30 transition-all active:scale-90 group"
       >
@@ -306,10 +310,10 @@ export default function Home() {
         className="fixed right-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full border border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-neutral-800 hover:border-white/30 transition-all active:scale-90 group"
       >
         <ChevronRight className="w-5 h-5 text-[#8A8A8A] group-hover:text-[#F2F2F2] group-hover:translate-x-0.5 transition-all" />
-      </button>
+      </button> */}
 
       {/* 2. Bottom Capsule indicator menu */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-neutral-900/70 border border-white/10 rounded-full px-5 py-2.5 flex gap-4 backdrop-blur-xl shadow-2xl">
+      {/* <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-neutral-900/70 border border-white/10 rounded-full px-5 py-2.5 flex gap-4 backdrop-blur-xl shadow-2xl">
         {solutions.map((sol, idx) => (
           <button
             key={sol.id}
@@ -328,10 +332,10 @@ export default function Home() {
             {sol.name}
           </button>
         ))}
-      </div>
+      </div> */}
 
       <RunningTicker />
-      <Founders />
+      {/* <Founders /> */}
       <Footer />
     </div>
   );
